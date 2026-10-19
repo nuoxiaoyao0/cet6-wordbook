@@ -840,6 +840,8 @@
   function setProgress(p) { if (ldBar) ldBar.style.width = (clamp(p, 0, 1) * 100).toFixed(1) + '%'; }
 
   async function fetchWords() {
+    /* 单文件版：词库已经内联在页面里，不走网络 */
+    if (window.__WORDS_INLINE__) { setProgress(1); ldHint.textContent = '内置词库'; return window.__WORDS_INLINE__; }
     var res = await fetch('./data/words.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     var total = +(res.headers.get('content-length') || 0);

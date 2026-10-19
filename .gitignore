@@ -4,3 +4,5 @@ node_modules/
 *.log
 Thumbs.db
 .DS_Store
+cet6-book.html
+push-to-github.ps1
