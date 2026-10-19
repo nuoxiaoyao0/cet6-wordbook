@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="六级词汇">
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#f6eddc"/>
+  <path d="M2 16a14 14 0 0 1 14-14h2v60h-2A14 14 0 0 1 2 48z" fill="#9c4a24"/>
+  <rect x="7" y="14" width="3" height="36" rx="1.5" fill="#f6eddc" opacity=".35"/>
+  <text x="34" y="36" font-family="Microsoft YaHei, PingFang SC, Songti SC, serif" font-size="26"
+        font-weight="700" fill="#241f19" text-anchor="middle" dominant-baseline="middle">六</text>
+  <circle cx="47" cy="19" r="3.4" fill="#a33327"/>
+  <g fill="#cbb897">
+    <rect x="16" y="43" width="30" height="1.8" rx=".9"/>
+    <rect x="16" y="48" width="22" height="1.8" rx=".9"/>
+    <rect x="16" y="53" width="26" height="1.8" rx=".9"/>
+  </g>
+</svg>

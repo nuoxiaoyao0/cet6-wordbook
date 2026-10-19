@@ -1,0 +1,6 @@
+# 构建/验证用的中间文件，不参与部署
+.work/
+node_modules/
+*.log
+Thumbs.db
+.DS_Store
