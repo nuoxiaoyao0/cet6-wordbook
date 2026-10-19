@@ -424,8 +424,14 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke
 /* =============== 抽屉 =============== */
 .sheet{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;justify-content:center}
 .sheet[hidden]{display:none}
-.sheet-bg{position:absolute;inset:0;background:rgba(20,16,10,.38);animation:fadeIn .2s ease}
-[data-theme="night"] .sheet-bg{background:rgba(0,0,0,.6)}
+.sheet-bg{
+  position:absolute;inset:0;
+  background:rgba(18,14,9,.62);
+  -webkit-backdrop-filter:blur(10px) saturate(1.15);
+  backdrop-filter:blur(10px) saturate(1.15);
+  animation:fadeIn .2s ease;
+}
+[data-theme="night"] .sheet-bg{background:rgba(0,0,0,.74)}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .sheet-panel{
   position:relative;
@@ -688,6 +694,105 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke
 @media (min-width:1200px){
   body{display:grid;place-items:center;min-height:100dvh}
   .app{width:760px;height:min(100dvh,980px);border-radius:18px;overflow:hidden}
+}
+
+/* ==================== v1.1 新增：高频星标 / 计划卡 / 复习 / 动效 ==================== */
+
+/* 高频词星标（词后小星，书页批注感） */
+.e-star{
+  font-size:.64em;line-height:1;vertical-align:.30em;
+  margin-left:3px;letter-spacing:0;
+  -webkit-user-select:none;user-select:none;
+}
+.e-star.l2{color:#b23a2b;opacity:.95}
+.e-star.l1{color:#b8863b;opacity:.7}
+
+/* 抽屉面板必须是不透明纸色（之前变量只挂在 #app 上，抽屉拿不到 → 透明 → 文字叠在一起） */
+.sheet-panel{
+  background:var(--paper,#f6eddc);
+  color:var(--ink,#241f19);
+  border-top:1px solid var(--rule-2,#cbb897);
+  box-shadow:0 -2px 6px rgba(40,30,16,.10), 0 -22px 60px rgba(40,30,16,.28);
+}
+[data-theme="night"] .sheet-panel{box-shadow:0 -2px 6px rgba(0,0,0,.5), 0 -22px 60px rgba(0,0,0,.6)}
+.sheet-body{background:var(--paper,#f6eddc)}
+
+/* 计划卡 */
+.plan-card{
+  border:1px solid var(--rule-2);
+  border-radius:14px;
+  padding:12px 14px;
+  margin:0 0 14px;
+  background:linear-gradient(180deg, var(--paper-2), var(--paper));
+}
+.plan-card.empty{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.plan-card .pc-title{font-family:var(--font-cn);font-size:14px;font-weight:600;letter-spacing:.02em}
+.plan-card .pc-day{font-family:var(--font-en);font-size:12px;color:var(--accent);letter-spacing:.04em}
+.plan-card .pc-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.plan-card .pc-bar{height:4px;border-radius:3px;background:var(--rule);overflow:hidden;margin:10px 0 7px}
+.plan-card .pc-bar i{
+  display:block;height:100%;
+  background:linear-gradient(90deg,var(--accent-soft),var(--accent));
+  transition:width .45s cubic-bezier(.22,.8,.28,1);
+}
+.plan-card .pc-meta{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;color:var(--ink-3)}
+.plan-card .pc-actions{display:flex;gap:8px;margin-top:11px}
+.plan-card .btn{min-height:34px;padding:6px 12px;font-size:12.5px;flex:0 1 auto}
+
+.plan-preview{
+  border-radius:12px;
+  background:var(--paper-2);
+  border:1px solid var(--rule);
+  padding:12px 14px;
+  margin:2px 0 14px;
+  font-size:13px;line-height:1.75;color:var(--ink-2);
+}
+.plan-preview b{color:var(--accent);font-family:var(--font-en);font-size:14px}
+
+.order-row{display:flex;align-items:center;gap:10px;margin:0 0 14px}
+.order-label{font-size:13px;color:var(--ink-3);flex:0 0 auto}
+
+/* 自定义天数输入 */
+.days-custom{display:flex;align-items:center;gap:8px}
+.num{
+  width:84px;padding:8px 10px;
+  border:1px solid var(--rule-2);border-radius:10px;
+  background:var(--paper);color:var(--ink);
+  font-family:var(--font-en);font-size:16px;text-align:center;
+  outline:none;-webkit-appearance:none;appearance:none;
+}
+.num:focus{border-color:var(--accent-soft)}
+
+.btn.primary{
+  background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;
+}
+.btn.primary:active{opacity:.86}
+
+/* 详情页元信息小标签 */
+.d-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.d-tag{
+  font-size:11.5px;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--rule-2);color:var(--ink-3);
+  font-variant-numeric:tabular-nums;
+}
+.d-tag.hi2{color:#b23a2b;border-color:rgba(178,58,43,.55)}
+.d-tag.hi1{color:#b8863b;border-color:rgba(184,134,59,.5)}
+.d-tag.due{color:var(--accent);border-color:var(--accent)}
+
+/* 翻页 / 标记动效 */
+@keyframes pageNext{from{transform:translate3d(22px,0,0);opacity:0}to{transform:none;opacity:1}}
+@keyframes pagePrev{from{transform:translate3d(-22px,0,0);opacity:0}to{transform:none;opacity:1}}
+.flow.turn-next{animation:pageNext .2s cubic-bezier(.22,.8,.28,1) both}
+.flow.turn-prev{animation:pagePrev .2s cubic-bezier(.22,.8,.28,1) both}
+@keyframes markPop{0%{transform:scale(.72)}55%{transform:scale(1.18)}100%{transform:scale(1)}}
+.e-mark.pop{animation:markPop .26s cubic-bezier(.3,1.35,.5,1)}
+@keyframes cardIn{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+.plan-card{animation:cardIn .24s cubic-bezier(.22,.8,.28,1) both}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
 
 /* ---------- 打印：真的印成纸质单词书 ---------- */
